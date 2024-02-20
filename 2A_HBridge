@@ -1,0 +1,48 @@
+int right_pin = A0;
+int left_pin = A1;
+int right_on = 8;
+int left_on = 7;
+int max_brightness = 255;
+int off = 0;
+volatile bool off_state = true;
+volatile bool right_state = false;
+volatile bool left_state = false;
+
+void rightStateToggle(){
+  left_state = false;
+  right_state = true;
+}
+
+void leftStateToggle(){
+  right_state = false;
+  left_state = true;
+}
+
+void setup() {
+  // This automatically goes into the ON state
+  pinMode(right_pin, OUTPUT);
+  pinMode(left_pin, OUTPUT);
+  attachInterrupt(right_on, rightStateToggle, RISING);
+  attachInterrupt(left_on, leftStateToggle, RISING);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  if (off_state){
+    //nothing
+  }else if(right_state){
+    right_state_logic();
+  }else if(left_state){
+    left_state_logic();
+  }
+}
+
+void right_state_logic(){
+  analogWrite(left_pin, off);
+  analogWrite(right_pin, max_brightness/2);
+}
+
+void left_state_logic(){
+  analogWrite(right_pin, off);
+  analogWrite(left_pin, max_brightness/2);
+}
