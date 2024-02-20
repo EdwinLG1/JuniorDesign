@@ -20,6 +20,7 @@ void leftStateToggle(){
 
 void setup() {
   // This automatically goes into the ON state
+  Serial.begin(9600);
   pinMode(right_pin, OUTPUT);
   pinMode(left_pin, OUTPUT);
   attachInterrupt(right_on, rightStateToggle, RISING);
