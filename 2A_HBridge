@@ -1,5 +1,5 @@
-int right_pin = A0;
-int left_pin = A1;
+int right_pin = 5;
+int left_pin = 3;
 int right_on = 8;
 int left_on = 7;
 int max_brightness = 255;
