@@ -23,8 +23,8 @@ void setup() {
   Serial.begin(9600);
   pinMode(right_pin, OUTPUT);
   pinMode(left_pin, OUTPUT);
-  pinMode(right_on, INPUT);
-  pinMode(left_on, INPUT);
+  pinMode(right_on, INPUT_PULLUP);
+  pinMode(left_on, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(right_on), rightStateToggle, RISING);
   attachInterrupt(digitalPinToInterrupt(left_on), leftStateToggle, RISING);
 }
