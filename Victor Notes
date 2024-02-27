@@ -1,0 +1,6 @@
+Debugging:
+
+The motor won't turn on, so I put print statements in the interrupt service registers to verify that the pull-up resistor switch is working 
+properly.
+
+The ISR works right, but the motor isn't turning on, which makes us think that its a cicruit issue
