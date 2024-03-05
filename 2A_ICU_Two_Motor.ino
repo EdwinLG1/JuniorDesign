@@ -51,8 +51,8 @@ void setup() {
   pinMode(m2backward_pin, OUTPUT);
   attachInterrupt(mstate_pin, toggle_motor_on, CHANGE);
   attachInterrupt(m1control_pin, m1forwardISR, HIGH);
-  attachInterrupt(m2control_pin, m1backwardISR, LOW);
-  attachInterrupt(m1control_pin, m2forwardISR, HIGH);
+  attachInterrupt(m1control_pin, m1backwardISR, LOW);
+  attachInterrupt(m2control_pin, m2forwardISR, HIGH);
   attachInterrupt(m2control_pin, m2backwardISR, LOW);
 }
 
