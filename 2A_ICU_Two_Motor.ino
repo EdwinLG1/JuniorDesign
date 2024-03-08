@@ -26,21 +26,25 @@ void motorOFF_ISR(){
 }
 
 void m1forwardISR(){
+  Serial.println("m1f");
   m1backward = false;
   m1forward = true;
 }
 
 void m1backwardISR(){
+  Serial.println("m1b");
   m1forward = false;
   m1backward = true;
 }
 
 void m2forwardISR(){
+  Serial.println("m2f");
   m2backward = false;
   m2forward = true;
 }
 
 void m2backwardISR(){
+  Serial.println("m2b");
   m2forward = false;
   m2backward = true;
 }
@@ -55,12 +59,12 @@ void setup() {
   pinMode(m2direction_pin, OUTPUT);
   pinMode(m1PWM_pin, OUTPUT);
   pinMode(m2PWM_pin, OUTPUT);
-  attachInterrupt(state_user_pin, motorON_ISR, HIGH);
-  attachInterrupt(state_user_pin, motorOFF_ISR, LOW);
-  attachInterrupt(m1_user_pin, m1forwardISR, HIGH);
-  attachInterrupt(m1_user_pin, m1backwardISR, LOW);
-  attachInterrupt(m2_user_pin, m2forwardISR, HIGH);
-  attachInterrupt(m2_user_pin, m2backwardISR, LOW);
+  attachInterrupt(state_user_pin, motorON_ISR, RISING);
+  attachInterrupt(state_user_pin, motorOFF_ISR, FALLING);
+  attachInterrupt(m1_user_pin, m1forwardISR, RISING);
+  attachInterrupt(m1_user_pin, m1backwardISR, FALLING);
+  attachInterrupt(m2_user_pin, m2forwardISR, RISING);
+  attachInterrupt(m2_user_pin, m2backwardISR, FALLING);
 }
 
 void loop() {
