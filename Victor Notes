@@ -20,3 +20,4 @@ The motor won't turn on even when I make the code directly turn it on, I think i
 digitalWrite(m1direction_pin, HIGH);
 analogWrite(m1PWM_pin, max_power);
 
+I'm gonna start debugging by making sure that the voltages are at the correct points in the IC
