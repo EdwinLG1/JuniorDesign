@@ -21,3 +21,9 @@ digitalWrite(m1direction_pin, HIGH);
 analogWrite(m1PWM_pin, max_power);
 
 I'm gonna start debugging by making sure that the voltages are at the correct points in the IC
+
+We suspect that the zener diodes are not in the correct orientation, they might be in forward bias
+
+Turns out that all the zener diodes have the opposite polarity than they should have
+
+The diodes are in the right orientation, but the motor still won't turn on
