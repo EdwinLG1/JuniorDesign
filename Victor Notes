@@ -4,3 +4,19 @@ The motor won't turn on, so I put print statements in the interrupt service regi
 properly.
 
 The ISR works right, but the motor isn't turning on, which makes us think that its a cicruit issue
+
+  pinMode(m1PWM_pin, OUTPUT);
+  pinMode(m2PWM_pin, OUTPUT);
+  attachInterrupt(state_user_pin, motorON_ISR, RISING);
+  attachInterrupt(state_user_pin, motorOFF_ISR, FALLING);
+  attachInterrupt(m1_user_pin, m1forwardISR, RISING);
+  attachInterrupt(m1_user_pin, m1backwardISR, FALLING);
+  attachInterrupt(m2_user_pin, m2forwardISR, RISING);
+  attachInterrupt(m2_user_pin, m2backwardISR, FALLING);
+
+Turns out that we need to use the CHANGE instead because this code ^ overwrites the rising edge interrupt with the falling edge one
+The motor won't turn on even when I make the code directly turn it on, I think it is a circuit issue because I tried to activate a motor in main and it didn't go on, and the power source was plugged in when I used this code:
+
+digitalWrite(m1direction_pin, HIGH);
+analogWrite(m1PWM_pin, max_power);
+
