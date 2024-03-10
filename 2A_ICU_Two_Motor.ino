@@ -10,43 +10,27 @@ int m2PWM_pin = 10; // Output Analog Pin
 int max_power = 255;
 int off = 0;
 volatile bool motor_off = true;
-volatile bool m1forward = false;
-volatile bool m2forward = false;
+volatile bool m1forward = true;
+volatile bool m2forward = true;
 volatile bool m1backward = false;
 volatile bool m2backward = false;
 
-void motorON_ISR(){
-  Serial.println("motor on");
-  motor_off = false;
+void motorTOGGLE_ISR(){
+  Serial.println("motor toggle");
+  motor_off = !motor_off;
 }
 
-void motorOFF_ISR(){
-  Serial.println("motor off");
-  motor_off = true;
+void m1directionISR(){
+  Serial.println("m1 direction");
+  m1forward = !m1forward;
+  m1backward = !m1backward;
 }
 
-void m1forwardISR(){
-  Serial.println("m1f");
-  m1backward = false;
-  m1forward = true;
-}
-
-void m1backwardISR(){
-  Serial.println("m1b");
-  m1forward = false;
-  m1backward = true;
-}
-
-void m2forwardISR(){
-  Serial.println("m2f");
-  m2backward = false;
-  m2forward = true;
-}
-
-void m2backwardISR(){
-  Serial.println("m2b");
-  m2forward = false;
-  m2backward = true;
+void m2directionISR(){
+  Serial.println("m2 direction");
+  m2forward = !m2forward;
+  m2backward = !m2backward;
+  
 }
 
 void setup() {
@@ -59,18 +43,19 @@ void setup() {
   pinMode(m2direction_pin, OUTPUT);
   pinMode(m1PWM_pin, OUTPUT);
   pinMode(m2PWM_pin, OUTPUT);
-  attachInterrupt(state_user_pin, motorON_ISR, RISING);
-  attachInterrupt(state_user_pin, motorOFF_ISR, FALLING);
-  attachInterrupt(m1_user_pin, m1forwardISR, RISING);
-  attachInterrupt(m1_user_pin, m1backwardISR, FALLING);
-  attachInterrupt(m2_user_pin, m2forwardISR, RISING);
-  attachInterrupt(m2_user_pin, m2backwardISR, FALLING);
+  attachInterrupt(state_user_pin, motorTOGGLE_ISR, CHANGE);
+  attachInterrupt(m1_user_pin, m1directionISR, CHANGE);
+  attachInterrupt(m2_user_pin, m2directionISR, CHANGE);
 }
 
 void loop() {
   // MAIN LOOP
+  digitalWrite(m1direction_pin, HIGH);
+  analogWrite(m1PWM_pin, max_power);
+  digitalWrite(m2direction_pin, HIGH);
+  analogWrite(m2PWM_pin, max_power);
   if (motor_off){
-    off_state();
+    //off_state();
   }else{
     m1_state_logic();
     m2_state_logic();
@@ -81,7 +66,6 @@ void off_state(){
   // Turn off motors
   analogWrite(m1PWM_pin, off);
   analogWrite(m2PWM_pin, off);
-
 }
 
 void m1_state_logic(){
