@@ -39,3 +39,7 @@ We have 4 different pins for the bi-directional movement of both motors: 4,5,9,1
 I looked up a youtube video to make the motor classes, and I created a "goForward" and "goBackward" function, as well as a "Stop" function in the class
 
 We got the motor to work within all required functionality!!!!
+
+For the battery pack holes, they are 2.09in apart, 0.15in diameter
+
+For the wheel holes, they are .13in apart, .08in diameter
