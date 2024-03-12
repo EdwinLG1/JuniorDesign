@@ -4,22 +4,22 @@
 MotorClass::MotorClass(int forward_pin, int backward_pin){
   pinMode(forward_pin, OUTPUT);
   pinMode(backward_pin, OUTPUT);
-  _f_pin = forward_pin;
-  _b_pin = backward_pin;
+  _forward_pin = forward_pin;
+  _backward_pin = backward_pin;
   _OFF = 0;
 }
 
 void MotorClass::goForward(int speed){
-  analogWrite(_f_pin, speed);
-  analogWrite(_b_pin, OFF);
+  analogWrite(_forward_pin, speed);
+  analogWrite(_backward_pin, _OFF);
 }
 
 void MotorClass::goBackward(int speed){
-  analogWrite(_f_pin, speed);
-  analogWrite(_b_pin, OFF);
+  analogWrite(_backward_pin, speed);
+  analogWrite(_forward_pin, _OFF);
 }
 
-void MotorClass::Stop(int speed){
-  analogWrite(_f_pin, OFF);
-  analogWrite(_b_pin, OFF);
+void MotorClass::Stop(){
+  analogWrite(_forward_pin, _OFF);
+  analogWrite(_backward_pin, _OFF);
 }
