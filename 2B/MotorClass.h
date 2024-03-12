@@ -8,7 +8,7 @@ class MotorClass {
     MotorClass(int forward_pin, int backward_pin);
     void MotorClass::goForward(int speed);
     void MotorClass::goBackward(int speed);
-    void MotorClass::Stop();
+    void MotorClass::stop();
   private:
     int _forward_pin;
     int _backward_pin;
