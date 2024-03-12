@@ -38,6 +38,10 @@ We have 4 different pins for the bi-directional movement of both motors: 4,5,9,1
 
 I looked up a youtube video to make the motor classes, and I created a "goForward" and "goBackward" function, as well as a "Stop" function in the class
 
+Turns out we were right all along, and we needed 4 seperate PWM pins to control the directionality of both motors
+as opposed to having the direction of the motors be controlled with 1 pin on 2 and 7 of the IC. We were unintentially 
+shorting pins 2 and 7 on the IC which created 0 potential difference across the motor
+
 We got the motor to work within all required functionality!!!!
 
 For the battery pack holes, they are 2.09in apart, 0.15in diameter
