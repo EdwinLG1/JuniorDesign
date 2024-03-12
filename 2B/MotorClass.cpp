@@ -19,7 +19,7 @@ void MotorClass::goBackward(int speed){
   analogWrite(_forward_pin, _OFF);
 }
 
-void MotorClass::Stop(){
+void MotorClass::stop(){
   analogWrite(_forward_pin, _OFF);
   analogWrite(_backward_pin, _OFF);
 }
