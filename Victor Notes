@@ -32,4 +32,8 @@ Motor Class Requirements:
 - Motor stop function
 - Both PWM direction Pins
 
-We have 4 different pins for the bi-directional movement of both motors
+We have 4 different pins for the bi-directional movement of both motors: 4,5,9,10
+
+I looked up a youtube video to make the motor classes, and I created a "goForward" and "goBackward" function, as well as a "Stop" function in the class
+
+We got the motor to work within all required functionality!!!!
