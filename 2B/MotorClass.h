@@ -10,7 +10,9 @@ class MotorClass {
     void MotorClass::goBackward(int speed);
     void MotorClass::Stop();
   private:
-    int _f_pin;
-    int _b_pin;
+    int _forward_pin;
+    int _backward_pin;
     int _OFF ;
-}
+};
+
+#endif
