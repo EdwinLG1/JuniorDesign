@@ -29,6 +29,7 @@ Turns out that all the zener diodes have the opposite polarity than they should 
 The diodes are in the right orientation, but the motor still won't turn on
 
 Motor Class Requirements:
-- Motor turn function
 - Motor stop function
 - Both PWM direction Pins
+
+We have 4 different pins for the bi-directional movement of both motors
