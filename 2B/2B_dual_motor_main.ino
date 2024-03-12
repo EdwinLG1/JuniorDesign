@@ -1,10 +1,10 @@
 // m in this case means motor 
 // motor 1 is left, motor 2 is right when looking at bot from the back
-#include <MotorClass.h>
+#include "MotorClass.h"
 
 // Analog Ouput pins for forward and backward movement
-MotorClass Motor1(2,4);
-MotorClass Motor2(5,10);
+MotorClass Motor1(5,6);
+MotorClass Motor2(9,10);
 
 int state_user_pin = 8; // Input Digital Pin
 int m1_user_pin = 13; // Input Digital Pin
@@ -48,11 +48,11 @@ void setup() {
 
 void loop() {
   // MAIN LOOP
-  digitalWrite(m1direction_pin, HIGH);
-  analogWrite(m1PWM_pin, max_power);
+  Motor1.goBackward(200);
+  Motor2.goBackward(50);
   if (motor_off){
-    Motor1.stop();
-    Motor2.stop();
+    //Motor1.stop();
+    //Motor2.stop();
   }else{
     m1_state_logic();
     m2_state_logic();
