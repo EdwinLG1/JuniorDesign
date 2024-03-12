@@ -28,6 +28,8 @@ Turns out that all the zener diodes have the opposite polarity than they should 
 
 The diodes are in the right orientation, but the motor still won't turn on
 
+The power rail was shorted to ground, so we had to change the breadboard out
+
 Motor Class Requirements:
 - Motor stop function
 - Both PWM direction Pins
