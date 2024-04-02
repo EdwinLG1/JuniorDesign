@@ -8,4 +8,5 @@ State Machine States:
 - Stop State
 - Turn State
 - Auto-Steering State
-- 
+
+We need to have two visible light sensors in the front in order to know where the bot is on the path
