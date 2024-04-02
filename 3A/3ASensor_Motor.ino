@@ -9,11 +9,19 @@ MotorClass Motor2(9,10);
 int state_user_pin = 8; // Input Digital Pin
 int m1_user_pin = 13; // Input Digital Pin
 int m2_user_pin = 12; // Input Digital Pin
-int v_transistor = A0; // Analog Input Pin
-int trans_value;
+int ir_transistor = A0; // Analog Input Pin
+int c_transistor = A1; // Analog Input Pin
 int max_power = 255;
 int off = 0;
-volatile bool on = true;
+int collision_range[2] = {0,500}; // range of acceptable voltage to detect collision
+int red_range[2] = {0,500}; // range of acceptable voltage to detect red
+int blue_range[2] = {0,500}; // range of acceptable voltage to detect blue
+int yellow_range[2] = {0,500}; // range of acceptable voltage to detect yellow
+int black_range[2] = {0,500}; // range of acceptable voltage to detect black
+char road_color;
+volatile int ir_value;
+volatile int c_value;
+volatile bool obstacle = false;
 volatile bool motor_off = true;
 volatile bool m1forward = true;
 volatile bool m2forward = true;
@@ -37,13 +45,26 @@ void m2directionISR(){
   m2backward = !m2backward;
 }
 
+void collect_ir_data(){
+  ir_value = analogRead(ir_transistor);
+  Serial.println(ir_value);
+}
+
+void collect_c_data(){
+  c_value = analogRead(c_transistor);
+  Serial.println(c_value);
+}
+
 void setup() {
   // This automatically goes into the ON state
   Serial.begin(9600);
   pinMode(state_user_pin, INPUT_PULLUP);
   pinMode(m1_user_pin, INPUT_PULLUP);
   pinMode(m2_user_pin, INPUT_PULLUP);
-  pinMode(v_transistor, INPUT);
+  pinMode(ir_transistor, INPUT);
+  pinMode(c_transistor, INPUT);
+  attachInterrupt(ir_transistor, collect_ir_data, CHANGE);
+  attachInterrupt(c_transistor, collect_c_data, CHANGE);
   attachInterrupt(state_user_pin, motorTOGGLE_ISR, CHANGE);
   attachInterrupt(m1_user_pin, m1directionISR, CHANGE);
   attachInterrupt(m2_user_pin, m2directionISR, CHANGE);
@@ -51,14 +72,34 @@ void setup() {
 
 void loop() {
   // MAIN LOOP
-  trans_value = analogRead(v_transistor);
-  Serial.println(trans_value);
   if (motor_off){
     Motor1.stop();
     Motor2.stop();
   }else{
+    collision_logic();
+    color_logic();
     m1_state_logic();
     m2_state_logic();
+  }
+}
+
+void collision_logic(){
+  if (ir_value >= collision_range[0] && ir_value <= collision_range[1]){
+    obstacle = true;
+  }else{
+    obstacle = false;
+  }
+}
+
+void color_logic(){
+  if (c_value >= black_range[0] && c_value <= black_range[1]){
+    road_color = "black";
+  }else if (c_value >= red_range[0] && c_value <= red_range[1]){
+    road_color = "red";
+  }else if (c_value >= yellow_range[0] && c_value <= yellow_range[1]){
+    road_color = "yellow";
+  }else if (c_value >= blue_range[0] && c_value <= blue_range[1]){
+    road_color = "blue";
   }
 }
 
@@ -77,4 +118,3 @@ void m2_state_logic(){
     Motor2.goBackward(max_power);
   }
 }
-
