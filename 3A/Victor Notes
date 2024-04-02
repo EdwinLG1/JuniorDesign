@@ -3,4 +3,9 @@ Requirements:
 - Constantly check color status
 - Have corrective steering 
 - Obstacle stop logic
+
+State Machine States:
+- Stop State
+- Turn State
+- Auto-Steering State
 - 
