@@ -13,6 +13,7 @@ int ir_transistor = A0; // Analog Input Pin
 int c_transistor = A1; // Analog Input Pin
 int max_power = 255;
 int off = 0;
+int unsigned long fudge_factor = 2000; // 2 seconds || Experimental value from our bot to get time/degree turned
 int collision_range[2] = {0,500}; // range of acceptable voltage to detect collision
 int red_range[2] = {0,500}; // range of acceptable voltage to detect red
 int blue_range[2] = {0,500}; // range of acceptable voltage to detect blue
@@ -27,6 +28,12 @@ volatile bool m1forward = true;
 volatile bool m2forward = true;
 volatile bool m1backward = false;
 volatile bool m2backward = false;
+
+// STATE VARIABLES
+int STEERING_STATE = 1;
+int STOP_STATE = 2;
+int TURN_STATE = 3;
+int CURRENT_STATE = STEERING_STATE;
 
 void motorTOGGLE_ISR(){
   Serial.println("motor toggle");
@@ -72,10 +79,11 @@ void setup() {
 
 void loop() {
   // MAIN LOOP
-  if (motor_off){
+  if (CURRENT_STATE == STOP_STATE){
     Motor1.stop();
     Motor2.stop();
-  }else{
+    CURRENT_STATE = TURN_STATE;
+  }else if (CURRENT_STATE == TURN_STATE){
     collision_logic();
     color_logic();
     m1_state_logic();
@@ -104,10 +112,15 @@ void color_logic(){
 }
 
 void m1_state_logic(){
-  if (m1forward){ // Makes motor 1 go to the right
-    Motor1.goForward(max_power);
-  }else if (m1backward){ // Makes motor 1 go to the left
-    Motor1.goBackward(max_power);
+  if (obstacle){
+    Motor1.stop();
+    Motor2.stop();
+  }else{
+    if (m1forward) {  // Makes motor 1 go to the right
+      Motor1.goForward(max_power);
+    } else if (m1backward) {  // Makes motor 1 go to the left
+      Motor1.goBackward(max_power);
+    }
   }
 }
 
@@ -117,4 +130,28 @@ void m2_state_logic(){
   }else if (m2backward){ // Makes motor 2 go to the left
     Motor2.goBackward(max_power);
   }
+}
+
+void turnClockwise(int degrees){
+  Motor2.stop();
+  Motor1.goForward(max_power);
+  int unsigned long start_time = millis();
+  int unsigned long turn_time = degrees * fudge_factor; // fudge factor is experimental time from 360 degree test
+  int unsigned long current_time = 0;
+  while ((current_time - start_time) < turn_time){
+    int unsigned long current_time = millis();
+  }
+  Motor1.stop();
+}
+
+void turnCounterClockwise(int degrees){
+  Motor1.stop();
+  Motor2.goForward(max_power);
+  int unsigned long start_time = millis();
+  int unsigned long turn_time = degrees * fudge_factor; // fudge factor is experimental time from 360 degree test
+  int unsigned long current_time = 0;
+  while ((current_time - start_time) < turn_time){
+    int unsigned long current_time = millis();
+  }
+  Motor2.stop();
 }
