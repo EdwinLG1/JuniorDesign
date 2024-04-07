@@ -77,9 +77,9 @@ void setup() {
   pinMode(state_user_pin, INPUT_PULLUP);
   pinMode(m1_user_pin, INPUT_PULLUP);
   pinMode(m2_user_pin, INPUT_PULLUP);
-  pinMode(ir_transistor, INPUT_PULLUP);
-  pinMode(c1_transistor, INPUT_PULLUP);
-  pinMode(c2_transistor, INPUT_PULLUP);
+  pinMode(ir_transistor, INPUT);
+  pinMode(c1_transistor, INPUT);
+  pinMode(c2_transistor, INPUT);
   attachInterrupt(ir_transistor, collect_ir_data, CHANGE);
   attachInterrupt(c1_transistor, collect_c1_data, CHANGE);
   attachInterrupt(c2_transistor, collect_c2_data, CHANGE);
