@@ -1,5 +1,5 @@
 // Battery Power Management Measuring System
-Void setup( ) {
+void setup( ) {
 	pinMode(2, OUTPUT)
 	pinMode(3, OUTPUT)
 	pinMode(4, OUTPUT)
@@ -8,6 +8,6 @@ Void setup( ) {
 	digitalWrite(4, LOW)
 }
 
-Void batteryVoltage(){
-	int batterySensor = analogRead
+void batteryVoltage(){
+	int batterySensor = analogRead(A3)
 }
