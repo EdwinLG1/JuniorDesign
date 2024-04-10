@@ -21,8 +21,7 @@ void setup() {
 void loop() {
   // MAIN LOOP
   if (CURRENT_STATE == STOP_STATE){
-    Motor1.stop();
-    Motor2.stop();
+    
     CURRENT_STATE = TURN_STATE;
   }else if (CURRENT_STATE == STEERING_STATE){
     collision_logic();
@@ -45,7 +44,7 @@ void collision_logic(){
   }
 }
 
-void stop_motor(){
+void stopMotors(){
 
 }
 
