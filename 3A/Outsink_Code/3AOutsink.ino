@@ -12,8 +12,10 @@ int enableAPin1 = 11
 int enableAPin2 = 12
 int max_power = 255;
 int off = 0;
-int collision_range[2] = {0,500}; // range of acceptable voltage to detect collision
-volatile int ir_value;
+
+//TEST THIS WITH YOUR BOT TO GET THE RIGHT VALUES >
+int collision_range[2] = {0,500}; // range of acceptable voltage to detect collision 
+int ir_value;
 
 // STATE VARIABLES
 int FORWARD_STATE = 1
