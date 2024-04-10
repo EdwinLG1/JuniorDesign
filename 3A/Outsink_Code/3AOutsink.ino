@@ -14,6 +14,7 @@ int max_power = 255;
 int off = 0;
 int collision_range[2] = {0,500}; // range of acceptable voltage to detect collision
 volatile int ir_value;
+
 // STATE VARIABLES
 int FORWARD_STATE = 1
 int STOP_STATE = 2;
@@ -39,9 +40,6 @@ void loop() {
     collision_logic();
   }else if (CURRENT_STATE == FORWARD_STATE){
     collision_logic();
-  }else if (CURRENT_STATE == TURN_STATE){
-    turnCounterClockwise(180); // 180 degree turn
-    CURRENT_STATE = STEERING_STATE;
   }
 }
 
