@@ -1,7 +1,5 @@
-// m in this case means motor 
-// motor 1 is left, motor 2 is right when looking at bot from the back
-
-int ir_transistor = A0; // Analog Input Pin
+// PUT IN APPROPRIATE PIN NUMBERS FOR YOUR SYSTEM!!!
+int ir_transistor = A0; // Analog Input Pin for reading voltage at phototransistor
 int collision_pin = 5; // Digital Input Pin
 int collision_initiate_pin = 6; // Dig In Pin || to trigger interrupt
 int motorAPin1 = 7
@@ -32,6 +30,12 @@ void setup() {
   pinMode(ir_transistor, INPUT);
   pinMode(collision_pin, INPUT);
   pinMode(collision_initiate_pin, OUTPUT);
+  pinMode(motorAPin1, OUTPUT);
+  pinMode(motorAPin2, OUTPUT);
+  pinMode(motorBPin1, OUTPUT);
+  pinMode(motorBPin2, OUTPUT);
+  pinMode(enableAPin1, OUTPUT);
+  pinMode(enableBPin1, OUTPUT);
   attachInterrupt(collision_pin, collision, RISING);
 }
 
