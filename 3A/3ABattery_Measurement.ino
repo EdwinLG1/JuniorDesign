@@ -23,10 +23,10 @@ void batteryVoltage(){
     digitalWrite(5, HIGH); 
     digitalWrite(2, LOW);// Both green LEDs on
   } else if ((batterySensor >= 600) && (batterySensor <= 900)){ // Battery High 66% -95% (65% battery - analogy value of ~600)
-    digitalWrite(4, HIGH);
+    digitalWrite(4, HIGH); // 1 Green LED on
   } else if((batterySensor >= 300) && (batterySensor <= 600)){  // Battery Medium 33% - 66%
-    digitalWrite(3, HIGH);
+    digitalWrite(3, HIGH); // Yellow LED on
   } else {                  // Battery Low, Needs Charge <33%
-    digitalWrite(2, HIGH);
+    digitalWrite(2, HIGH); // Red LED on
   }
 }
