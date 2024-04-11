@@ -20,12 +20,16 @@ void batteryVoltage(){
   Serial.println(batterySensor);
   if((batterySensor >= 900) && (batterySensor <= 1023)){ // Battery Full
     digitalWrite(4, HIGH);
-    digitalWrite(5, HIGH); 
-    digitalWrite(2, LOW);// Both green LEDs on
+    digitalWrite(5, HIGH); // Both green LEDs on
+    digitalWrite(3, LOW);
+    digitalWrite(2, LOW);
   } else if ((batterySensor >= 600) && (batterySensor <= 900)){ // Battery High 66% -95% (65% battery - analogy value of ~600)
     digitalWrite(4, HIGH); // 1 Green LED on
+    digitalWrite(3, LOW);
+    digitalWrite(2,LOW);
   } else if((batterySensor >= 300) && (batterySensor <= 600)){  // Battery Medium 33% - 66%
     digitalWrite(3, HIGH); // Yellow LED on
+    digitalWrite(2,LOW);
   } else {                  // Battery Low, Needs Charge <33%
     digitalWrite(2, HIGH); // Red LED on
   }
