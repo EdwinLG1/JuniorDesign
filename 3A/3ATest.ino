@@ -7,8 +7,7 @@ MotorClass Motor1(5,6);
 MotorClass Motor2(9,10);
 
 int state_user_pin = 8; // Input Digital Pin
-int m1_user_pin = 13; // Input Digital Pin
-int m2_user_pin = 12; // Input Digital Pin
+int dayLED = 13; // Input Digital Pin
 int ir_transistor = A0; // Analog Input Pin
 int c1_transistor = A1; // Analog Input Pin
 int c2_transistor = A2; // Analog Input Pin
@@ -16,10 +15,10 @@ int max_power = 255;
 int off = 0;
 int unsigned long fudge_factor = 2000; // 2 seconds || Experimental value from our bot to get time/degree turned
 int collision_range[2] = {0,500}; // range of acceptable voltage to detect collision
-int red_range[2] = {0,500}; // range of acceptable voltage to detect red
-int blue_range[2] = {0,500}; // range of acceptable voltage to detect blue
-int yellow_range[2] = {0,500}; // range of acceptable voltage to detect yellow
-int black_range[2] = {0,500}; // range of acceptable voltage to detect black
+int red_range[2] = {900,930}; // range of acceptable voltage to detect red
+int blue_range[2] = {750,880}; // range of acceptable voltage to detect blue
+int yellow_range[2] = {945,1000}; // range of acceptable voltage to detect yellow
+int black_range[2] = {0,700}; // range of acceptable voltage to detect black
 int road_color[2];
 volatile int ir_value;
 volatile int c_value[2];
@@ -75,8 +74,7 @@ void setup() {
   // This automatically goes into the ON state
   Serial.begin(9600);
   pinMode(state_user_pin, INPUT_PULLUP);
-  pinMode(m1_user_pin, INPUT_PULLUP);
-  pinMode(m2_user_pin, INPUT_PULLUP);
+  pinMode(dayLED, OUTPUT);
   pinMode(ir_transistor, INPUT);
   pinMode(c1_transistor, INPUT);
   pinMode(c2_transistor, INPUT);
@@ -84,14 +82,18 @@ void setup() {
   attachInterrupt(c1_transistor, collect_c1_data, CHANGE);
   attachInterrupt(c2_transistor, collect_c2_data, CHANGE);
   attachInterrupt(state_user_pin, motorTOGGLE_ISR, CHANGE);
-  attachInterrupt(m1_user_pin, m1directionISR, CHANGE);
-  attachInterrupt(m2_user_pin, m2directionISR, CHANGE);
 }
 
 void loop() {
   // MAIN LOOP
   c_value[0] = analogRead(c1_transistor);
-  Serial.println(c_value[0]);
+  // Serial.println(c_value[0]);
+  if (c_value[0] < 515){
+    digitalWrite(dayLED, HIGH);
+  }else{
+    digitalWrite(dayLED, LOW);
+  }
+  color_logic();
   // if (CURRENT_STATE == STOP_STATE){
   //   Motor1.stop();
   //   Motor2.stop();
@@ -115,12 +117,16 @@ void collision_logic(){
 void color_logic(){
   if (c_value[0] >= black_range[0] && c_value[0] <= black_range[1]){
     road_color[0] = BLACK;
+    Serial.println("BLACK");
   }else if (c_value[0] >= red_range[0] && c_value[0] <= red_range[1]){
     road_color[0] = RED;
+    Serial.println("RED");
   }else if (c_value[0] >= yellow_range[0] && c_value[0] <= yellow_range[1]){
     road_color[0] = YELLOW;
+    Serial.println("YELLOW");
   }else if (c_value[0] >= blue_range[0] && c_value[0] <= blue_range[1]){
     road_color[0] = BLUE;
+    Serial.println("BLUE");
   }
   if (c_value[1] >= black_range[0] && c_value[1] <= black_range[1]){
     road_color[1] = BLACK;
