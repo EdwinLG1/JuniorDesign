@@ -2,8 +2,8 @@
 void setup() {
 	pinMode(2, OUTPUT); // Red LED
 	pinMode(3, OUTPUT); // Yellow LED
-	pinMode(4, OUTPUT); // Green LED 1
-  pinMode(5, OUTPUT); // Green LED 2
+	pinMode(4, OUTPUT); // Green LED 2
+  pinMode(5, OUTPUT); // Green LED 1
 	digitalWrite(2, LOW);
 	digitalWrite(3, LOW);
 	digitalWrite(4, LOW);
