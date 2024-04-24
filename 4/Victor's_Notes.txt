@@ -1,4 +1,7 @@
 Companion Bot:
 
-32mm from the ground
+46mm from the ground
 70mm between the center of each LED || is compatible with ours
+
+Our Bot:
+44mm for our bot
