@@ -13,11 +13,11 @@ int m2_user_pin = 12; // Input Digital Pin
 int ir_transistor = A0; // Analog Input Pin
 int c1_transistor = A1; // Analog Input Pin
 int c2_transistor = A2; // Analog Input Pin
-int ambientlight_pin = A5; // Analog Input Pin
+int ambientlight_pin = A4; // Analog Input Pin
 int max_power = 255;
 int off = 0;
 int unsigned long fudge_factor = 2000; // 2 seconds || Experimental value from our bot to get time/degree turned
-int day_range[2] = {0, 500}; // range of acceptable voltage for daytime
+int day_range[2] = {700, 1024}; // range of acceptable voltage for daytime
 int collision_range[2] = {0,500}; // range of acceptable voltage to detect collision
 int red_range[4] = {960,989 , 930,960}; // range of acceptable voltage to detect red
 int blue_range[4] = {930,959 , 860,929}; // range of acceptable voltage to detect blue
@@ -124,6 +124,8 @@ void color_logic(){
   c_value[0] = analogRead(c1_transistor);
   c_value[1] = analogRead(c2_transistor);
 
+  //Serial.println(c_value[0]);
+
   if (c_value[0] >= black_range[0] && c_value[0] <= black_range[1]){
     road_color[0] = BLACK;
   }else if (c_value[0] >= red_range[0] && c_value[0] <= red_range[1]){
@@ -189,11 +191,12 @@ void turnCounterClockwise(int degrees){
 
 void headlight_logic(){
   light_value = analogRead(ambientlight_pin);
-  //Serial.println(light_value);
+  Serial.println(light_value);
   if (light_value >= day_range[0] && light_value <= day_range[1]){
     day = true;
-    //Serial.println("Day");
+    digitalWrite(headlight_pin, LOW);
   }else{
     //Serial.println("Night");
+    digitalWrite(headlight_pin, HIGH);
   }
 }
