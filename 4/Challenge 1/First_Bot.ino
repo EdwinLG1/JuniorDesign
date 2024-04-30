@@ -118,15 +118,37 @@ void color_logic(){
   }
 }
 
-void steering_logic(){
-  if (road_color[0] != BLACK && road_color[1] != BLACK){
+void red_steering_logic(){
+  if (road_color[0] == RED && road_color[1] == RED){
     Motor1.goForward(max_power);
     Motor2.goForward(max_power);
-  }else if (road_color[0] == BLACK && road_color[1] != BLACK){
-    turnClockwise(1); // 1 degree turn
-  }else if (road_color[1] == BLACK && road_color[0] != BLACK){
+  }else if (road_color[0] == RED && road_color[1] != RED){
     turnCounterClockwise(1); // 1 degree turn
+  }else if (road_color[0] != RED && road_color[1] == RED){
+    turnClockwise(1); // 1 degree turn
   }
+}
+
+void yellow_steering_logic(){
+  if (road_color[0] == YELLOW && road_color[1] == YELLOW){
+    Motor1.goForward(max_power);
+    Motor2.goForward(max_power);
+  }else if (road_color[0] == YELLOW && road_color[1] != YELLOW){
+    turnCounterClockwise(1); // 1 degree turn
+  }else if (road_color[0] != YELLOW && road_color[1] == YELLOW){
+    turnClockwise(1); // 1 degree turn
+  } 
+}
+
+void blue_steering_logic(){
+  if (road_color[0] == BLUE && road_color[1] == BLUE){
+    Motor1.goForward(max_power);
+    Motor2.goForward(max_power);
+  }else if (road_color[0] == BLUE && road_color[1] != BLUE){
+    turnCounterClockwise(1); // 1 degree turn
+  }else if (road_color[0] != BLUE && road_color[1] == BLUE){
+    turnClockwise(1); // 1 degree turn
+  }  
 }
 
 void turnClockwise(int degrees){
@@ -186,7 +208,7 @@ void FindRED_STATELOGIC(){
 }
 
 void FollowRED_STATELOGIC(){
-  steering_logic();
+  red_steering_logic();
     if collision {
     Motor1.stop();
     Motor2.stop();
@@ -205,7 +227,7 @@ void GoToYELLOW_STATELOGIC(){
 }
 
 void FollowYELLOW_STATELOGIC(){
-  steering_logic();
+  yellow_steering_logic();
   if collision {
   Motor1.stop();
   Motor2.stop();
