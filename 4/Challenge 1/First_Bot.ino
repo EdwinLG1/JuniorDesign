@@ -85,6 +85,8 @@ void loop() {
 }
 
 void collision_logic(){
+  ir_value = analogRead(ir_transistor);
+  //Serial.println(ir_value);
   if (ir_value >= collision_range[0] && ir_value <= collision_range[1]){
     collision = true;
   }else{
@@ -177,7 +179,7 @@ void turnCounterClockwise(int degrees){
 
 void headlight_logic(){
   light_value = analogRead(ambientlight_pin);
-  Serial.println(light_value);
+  // Serial.println(light_value);
   if (light_value >= day_range[0] && light_value <= day_range[1]){
     day = true;
     digitalWrite(headlight_pin, LOW);
@@ -190,11 +192,11 @@ void headlight_logic(){
 void GoToWALL_STATELOGIC(){
   Motor1.goForward(max_power);
   Motor2.goForward(max_power);
-  if collision {
+  if (collision) {
     Motor1.stop();
     Motor2.stop();
     turnClockwise(180);
-    CURRENT_STATE = FindRED_STATE
+    CURRENT_STATE = FindRED_STATE;
   }
 }
 
@@ -209,7 +211,7 @@ void FindRED_STATELOGIC(){
 
 void FollowRED_STATELOGIC(){
   red_steering_logic();
-    if collision {
+    if (collision) {
     Motor1.stop();
     Motor2.stop();
     turnCounterClockwise(90);
@@ -228,7 +230,7 @@ void GoToYELLOW_STATELOGIC(){
 
 void FollowYELLOW_STATELOGIC(){
   yellow_steering_logic();
-  if collision {
+  if (collision) {
   Motor1.stop();
   Motor2.stop();
   turnCounterClockwise(90);
@@ -239,7 +241,7 @@ void FollowYELLOW_STATELOGIC(){
 void GoToEND_STATELOGIC(){
   Motor1.goForward(max_power);
   Motor2.goForward(max_power);
-  if collision {
+  if (collision) {
   Motor1.stop();
   Motor2.stop();
   turnCounterClockwise(180);
