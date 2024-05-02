@@ -49,9 +49,6 @@ int CURRENT_STATE = IDLE_STATE;
 void setup() {
   // This automatically goes into the ON state
   Serial.begin(9600);
-  pinMode(state_user_pin, INPUT_PULLUP);
-  pinMode(m1_user_pin, INPUT_PULLUP);
-  pinMode(m2_user_pin, INPUT_PULLUP);
   pinMode(ir_transistor, INPUT);
   pinMode(c1_transistor, INPUT);
   pinMode(c2_transistor, INPUT);
@@ -100,23 +97,31 @@ void color_logic(){
 
   //Serial.println(c_value[0]);
 
-  if (c_value[0] >= black_range[0] && c_value[0] <= black_range[1]){
+if (c_value[0] >= black_range[0] && c_value[0] <= black_range[1]){
     road_color[0] = BLACK;
+    Serial.print("Black || ");
   }else if (c_value[0] >= red_range[0] && c_value[0] <= red_range[1]){
     road_color[0] = RED;
+    Serial.print("Red || ");
   }else if (c_value[0] >= yellow_range[0] && c_value[0] <= yellow_range[1]){
     road_color[0] = YELLOW;
+    Serial.print("Yellow || ");
   }else if (c_value[0] >= blue_range[0] && c_value[0] <= blue_range[1]){
     road_color[0] = BLUE;
+    Serial.print("Blue || ");
   }
   if (c_value[1] >= black_range[2] && c_value[1] <= black_range[3]){
     road_color[1] = BLACK;
+    Serial.println("Black");
   }else if (c_value[1] >= red_range[2] && c_value[1] <= red_range[3]){
     road_color[1] = RED;
+    Serial.println("Red");
   }else if (c_value[1] >= yellow_range[2] && c_value[1] <= yellow_range[3]){
     road_color[1] = YELLOW;
+    Serial.println("Yellow");
   }else if (c_value[1] >= blue_range[2] && c_value[1] <= blue_range[3]){
     road_color[1] = BLUE;
+    Serial.println("Blue");
   }
 }
 
