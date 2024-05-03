@@ -16,13 +16,14 @@ int c2_transistor = A2; // Analog Input Pin
 int ambientlight_pin = A4; // Analog Input Pin
 int max_power = 255;
 int off = 0;
-int unsigned long fudge_factor = 2000; // 2 seconds || Experimental value from our bot to get time/degree turned
-int day_range[2] = {700, 1024}; // range of acceptable voltage for daytime
-int collision_range[2] = {0,500}; // range of acceptable voltage to detect collision
-int red_range[4] = {960,989 , 930,960}; // range of acceptable voltage to detect red
-int blue_range[4] = {930,959 , 860,929}; // range of acceptable voltage to detect blue
-int yellow_range[4] = {990,1024 , 960,1024}; // range of acceptable voltage to detect yellow
-int black_range[4] = {0,929 , 0,859}; // range of acceptable voltage to detect black
+float Leftfudge_factor = 5.42; // Experimental value from our bot to get time/degree turned
+float Rightfudge_factor = 4.85; // Experimental value from our bot to get time/degree turned
+int day_range[2] = {450, 1024}; // range of acceptable voltage for daytime
+int collision_range[2] = {0,900}; // range of acceptable voltage to detect collision
+int red_range[4] = {961,979 , 930,955}; // range of acceptable voltage to detect red
+int blue_range[4] = {920,960 , 870,929}; // range of acceptable voltage to detect blue
+int yellow_range[4] = {980,1024 , 956,1024}; // range of acceptable voltage to detect yellow
+int black_range[4] = {0,919 , 0,869}; // range of acceptable voltage to detect black
 int road_color[2];
 volatile int ir_value;
 volatile int c_value[2];
@@ -44,14 +45,11 @@ int FollowYELLOW_STATE = 6;
 int GoToEND_STATE = 7;
 int Finished_STATE = 8;
 
-int CURRENT_STATE = IDLE_STATE;
+int CURRENT_STATE = GoToWALL_STATE;
 
 void setup() {
   // This automatically goes into the ON state
   Serial.begin(9600);
-  pinMode(state_user_pin, INPUT_PULLUP);
-  pinMode(m1_user_pin, INPUT_PULLUP);
-  pinMode(m2_user_pin, INPUT_PULLUP);
   pinMode(ir_transistor, INPUT);
   pinMode(c1_transistor, INPUT);
   pinMode(c2_transistor, INPUT);
@@ -85,8 +83,11 @@ void loop() {
 }
 
 void collision_logic(){
+  ir_value = analogRead(ir_transistor);
+  //Serial.println(ir_value);
   if (ir_value >= collision_range[0] && ir_value <= collision_range[1]){
     collision = true;
+    //Serial.println("chillin");
   }else{
     collision = false;
   }
@@ -120,8 +121,8 @@ void color_logic(){
 
 void red_steering_logic(){
   if (road_color[0] == RED && road_color[1] == RED){
-    Motor1.goForward(max_power);
-    Motor2.goForward(max_power);
+    Motor1.goForward(100);
+    Motor2.goForward(100);
   }else if (road_color[0] == RED && road_color[1] != RED){
     turnCounterClockwise(1); // 1 degree turn
   }else if (road_color[0] != RED && road_color[1] == RED){
@@ -131,8 +132,8 @@ void red_steering_logic(){
 
 void yellow_steering_logic(){
   if (road_color[0] == YELLOW && road_color[1] == YELLOW){
-    Motor1.goForward(max_power);
-    Motor2.goForward(max_power);
+    Motor1.goForward(100);
+    Motor2.goForward(100);
   }else if (road_color[0] == YELLOW && road_color[1] != YELLOW){
     turnCounterClockwise(1); // 1 degree turn
   }else if (road_color[0] != YELLOW && road_color[1] == YELLOW){
@@ -142,8 +143,8 @@ void yellow_steering_logic(){
 
 void blue_steering_logic(){
   if (road_color[0] == BLUE && road_color[1] == BLUE){
-    Motor1.goForward(max_power);
-    Motor2.goForward(max_power);
+    Motor1.goForward(100);
+    Motor2.goForward(100);
   }else if (road_color[0] == BLUE && road_color[1] != BLUE){
     turnCounterClockwise(1); // 1 degree turn
   }else if (road_color[0] != BLUE && road_color[1] == BLUE){
@@ -154,24 +155,14 @@ void blue_steering_logic(){
 void turnClockwise(int degrees){
   Motor2.stop();
   Motor1.goForward(max_power);
-  int unsigned long start_time = millis();
-  int unsigned long turn_time = degrees * fudge_factor; // fudge factor is experimental time from 360 degree test
-  int unsigned long current_time = 0;
-  while ((current_time - start_time) < turn_time){
-    int unsigned long current_time = millis();
-  }
+  delay(degrees * Leftfudge_factor);
   Motor1.stop();
 }
 
 void turnCounterClockwise(int degrees){
   Motor1.stop();
   Motor2.goForward(max_power);
-  int unsigned long start_time = millis();
-  int unsigned long turn_time = degrees * fudge_factor; // fudge factor is experimental time from 360 degree test
-  int unsigned long current_time = 0;
-  while ((current_time - start_time) < turn_time){
-    int unsigned long current_time = millis();
-  }
+  delay(degrees * Rightfudge_factor);
   Motor2.stop();
 }
 
@@ -188,8 +179,8 @@ void headlight_logic(){
 }
 
 void GoToWALL_STATELOGIC(){
-  Motor1.goForward(max_power);
-  Motor2.goForward(max_power);
+  Motor1.goForward(100);
+  Motor2.goForward(100);
   if (collision) {
     Motor1.stop();
     Motor2.stop();
@@ -199,8 +190,8 @@ void GoToWALL_STATELOGIC(){
 }
 
 void FindBLUE_STATELOGIC(){
-  Motor1.goForward(max_power);
-  Motor2.goForward(max_power);
+  Motor1.goForward(100);
+  Motor2.goForward(100);
   if (road_color[0] == BLUE & road_color[1] == BLUE){
     turnClockwise(45);
     CURRENT_STATE = FollowBLUE_STATE;
@@ -218,8 +209,8 @@ void FollowBLUE_STATELOGIC(){
 }
 
 void GoToYELLOW_STATELOGIC(){
-  Motor1.goForward(max_power);
-  Motor2.goForward(max_power);
+  Motor1.goForward(80);
+  Motor2.goForward(80);
   if (road_color[0] == YELLOW & road_color[1] == YELLOW){
     turnClockwise(90);
     CURRENT_STATE = FollowYELLOW_STATE;
@@ -237,8 +228,8 @@ void FollowYELLOW_STATELOGIC(){
 }
 
 void GoToEND_STATELOGIC(){
-  Motor1.goForward(max_power);
-  Motor2.goForward(max_power);
+  Motor1.goForward(100);
+  Motor2.goForward(100);
   if (collision){
   Motor1.stop();
   Motor2.stop();
