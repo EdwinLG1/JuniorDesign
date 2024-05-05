@@ -8,8 +8,8 @@ MotorClass Motor2(9,10);
 
 int max_power = 255;
 int off = 0;
-float Leftfudge_factor = 3.2; // Experimental value from our bot to get time/degree turned
-float Rightfudge_factor = 3.05; // Experimental value from our bot to get time/degree turned
+float Leftfudge_factor = 3.3; // Experimental value from our bot to get time/degree turned
+float Rightfudge_factor = 3.35; // Experimental value from our bot to get time/degree turned
 volatile bool collision = false;
 
 // STATE VARIABLES
@@ -35,35 +35,51 @@ void loop() {
     delay(1000);
     MoveBack3In();
     delay(1000);
-    LeftRightRightRight();
+    turnCounterClockwise(90);
+    MoveUp3In();
+    delay(1000);
+    turnClockwise(90);
+    Move12In();
+    MoveUp2In();
+    delay(1000);
+    turnClockwise(90);
+    MoveUp3In();
+    delay(1000);
+    turnClockwise(90);
     CURRENT_STATE = IDLE_STATE;
   }
 }
 
 void Move12In(){
-  Motor1.goForward(max_power);
-  Motor2.goForward(200);
+  Motor1.goForward(250);
+  Motor2.goForward(180);
   delay(800);
+  Motor1.stop();
+  Motor2.stop();
+}
+
+void MoveUp3In(){
+  Motor1.goForward(250);
+  Motor2.goForward(180);
+  delay(250);
+  Motor1.stop();
+  Motor2.stop();
+}
+
+void MoveUp2In(){
+  Motor1.goForward(250);
+  Motor2.goForward(180);
+  delay(190);
   Motor1.stop();
   Motor2.stop();
 }
 
 void MoveBack3In(){
-  Motor1.goForward(max_power);
-  Motor2.goForward(200);
-  delay(800);
+  Motor1.goBackward(250);
+  Motor2.goBackward(180);
+  delay(250);
   Motor1.stop();
   Motor2.stop();
-}
-
-void LeftRightRightRight(){
-  turnCounterClockwise(90);
-  delay(500);
-  turnClockwise(90);
-  delay(500);
-  turnClockwise(90);
-  delay(500);
-  turnClockwise(90);
 }
 
 void turnClockwise(int degrees){
