@@ -63,9 +63,9 @@ void loop() {
   collision_logic();
   counter = counter + 1;
   if (CURRENT_STATE == IDLE_STATE){
-    if (counter % 216 == 0) {
+    if (counter % 200 == 0) {
       Motor1.goForward(max_power);
-      Motor2.goForward(245);
+      Motor2.goForward(235);
       counter = 0;
       delay(10);
     }
